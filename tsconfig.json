@@ -1,9 +1,14 @@
 {
   "compilerOptions": {
+    // 目标代码（ts -> js(es5/6/7)）
     "target": "esnext",
+    // 目标代码需要使用的模块化方案
     "module": "esnext",
+    // 严格模式的检查
     "strict": true,
+    // 对 jsx进行怎样的处理
     "jsx": "preserve",
+    // 辅助导入功能
     "importHelpers": true,
     "moduleResolution": "node",
     "skipLibCheck": true,
