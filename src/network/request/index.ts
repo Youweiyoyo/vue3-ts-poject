@@ -66,7 +66,7 @@ class ServiceRequest {
     );
   }
   // 每次请求和创建的配置的类型一样
-  request<T>(config: serviceRequestConfig): Promise<T> {
+  request<T>(config: serviceRequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
       if (config.interceptors?.requestInterceptors) {
         config = config.interceptors.requestInterceptors(config);
@@ -94,20 +94,20 @@ class ServiceRequest {
     });
   }
 
-  get<T>(config: serviceRequestConfig): Promise<T> {
+  get<T>(config: serviceRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'GET' });
   }
 
-  post<T>(config: serviceRequestConfig): Promise<T> {
+  post<T>(config: serviceRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'POST' });
   }
 
-  delete<T>(config: serviceRequestConfig): Promise<T> {
-    return this.request<T>({ ...config, method: 'delete' });
+  delete<T>(config: serviceRequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: 'DELETE' });
   }
 
-  patch<T>(config: serviceRequestConfig): Promise<T> {
-    return this.request<T>({ ...config, method: 'patch' });
+  patch<T>(config: serviceRequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: 'PATCH' });
   }
 }
 export default ServiceRequest;
