@@ -5,7 +5,7 @@
         <el-input v-model="accountForm.name" />
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input v-model="accountForm.password" />
+        <el-input v-model="accountForm.password" show-password />
       </el-form-item>
     </el-form>
   </div>
@@ -14,17 +14,25 @@
 import { defineComponent, reactive, ref } from 'vue';
 import type { ElForm } from 'element-plus';
 import { accountFormRules } from '../config/account-rules-config';
+import LocalCache from '@/utils/cache';
 export default defineComponent({
   setup() {
     const accountForm = reactive({
-      name: '',
-      password: ''
+      name: LocalCache.getCache('name') ?? '',
+      password: LocalCache.getCache('password') ?? ''
     });
     const accountFormRef = ref<InstanceType<typeof ElForm>>();
-    const LoginAction = () => {
+    const LoginAction = (isKeepPassword: boolean) => {
       accountFormRef.value?.validate((isOk) => {
         if (isOk) {
-          console.log('执行登录逻辑');
+          // 是否记住密码
+          if (isKeepPassword) {
+            LocalCache.setCache('name', accountForm.name);
+            LocalCache.setCache('password', accountForm.password);
+          } else {
+            LocalCache.removeCache('name');
+            LocalCache.removeCache('password');
+          }
         }
       });
     };

@@ -35,7 +35,7 @@ export default defineComponent({
     const isKeepPassword = ref(true);
     const accountRef = ref();
     const handleLogin = () => {
-      accountRef.value?.LoginAction();
+      accountRef.value?.LoginAction(isKeepPassword.value);
     };
     return {
       isKeepPassword,
