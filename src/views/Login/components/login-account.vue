@@ -15,8 +15,10 @@ import { defineComponent, reactive, ref } from 'vue';
 import type { ElForm } from 'element-plus';
 import { accountFormRules } from '../config/account-rules-config';
 import LocalCache from '@/utils/cache';
+import { useStore } from 'vuex';
 export default defineComponent({
   setup() {
+    const store = useStore();
     const accountForm = reactive({
       name: LocalCache.getCache('name') ?? '',
       password: LocalCache.getCache('password') ?? ''
@@ -33,6 +35,7 @@ export default defineComponent({
             LocalCache.removeCache('name');
             LocalCache.removeCache('password');
           }
+          store.dispatch('login/accountLoginAction', { ...accountForm });
         }
       });
     };
