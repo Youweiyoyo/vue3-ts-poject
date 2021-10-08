@@ -14,9 +14,13 @@ const loginModule: Module<ILoginState, IRootState> = {
   mutations: {},
   getters: {},
   actions: {
-    accountLoginAction({ commit }, paylod: any) {
-      console.log('执行action');
-      console.log(paylod, 'payload');
+    accountLoginAction({ commit }, payload: any) {
+      console.log('执行账号密码登录逻辑');
+      console.log(payload, 'payload');
+    },
+    phoneLoginAction({ commit }, payload: any) {
+      console.log('执行手机号登录逻辑');
+      console.log(payload, 'payload');
     }
   }
 };

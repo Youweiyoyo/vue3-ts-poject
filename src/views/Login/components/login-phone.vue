@@ -15,14 +15,20 @@
 </template>
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
+import { useStore } from 'vuex';
 import { phoneFormRules } from '../config/phone-rules-config';
 export default defineComponent({
   setup() {
+    const store = useStore();
     const phoneForm = reactive({
       Tel: '',
       verificationCode: ''
     });
+    const LoginPhone = () => {
+      store.dispatch('login/phoneLoginAction');
+    };
     return {
+      LoginPhone,
       phoneForm,
       phoneFormRules
     };
