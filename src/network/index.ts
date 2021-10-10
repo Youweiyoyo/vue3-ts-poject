@@ -2,17 +2,17 @@
 import ServiceRequest from './request';
 // 从配置文件中导入根地址与请求请求超时时间
 import { BASE_URL, TIME_OUT } from './request/config';
+import LocalCache from '@/utils/cache';
 const Service = new ServiceRequest({
   baseURL: BASE_URL,
   timeout: TIME_OUT,
   interceptors: {
     requestInterceptors: (config) => {
-      console.log(config, 'config');
-      // const token = '';
-      // if (token) {
-      //   // config.headers.Authorization = `Bearer ${token}`;
-      // }
-      console.log('请求成功的拦截');
+      // 携带 token 拦截
+      const token = LocalCache.getCache('token');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
       return config;
     },
     requestInterceptorsCatch: (err) => {
