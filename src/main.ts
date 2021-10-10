@@ -8,19 +8,6 @@ import './assets/css/index.less';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 // import './network/axios.demo';
-import Service from './network';
-interface DataType {
-  data: any;
-  returnCode: string;
-  success: boolean;
-}
-Service.request<DataType>({ url: '/home/multidata', method: 'GET', showLoading: false }).then(
-  (res) => {
-    console.log(res.data);
-    console.log(res.returnCode);
-    console.log(res.success);
-  }
-);
 // createApp(App).use(router).use(store).mount('#app');
 // 上下代码等效  mount 的挂载一定要在 use 之后
 const app = createApp(App); // 创建

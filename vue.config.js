@@ -7,7 +7,18 @@ module.exports = {
   //       components: '@/components'
   //     }
   //   }
-  // }
+  // },
+  devServer: {
+    proxy: {
+      '^/api': {
+        target: 'http://152.136.185.210:5000',
+        pathRewrite: {
+          '^/api': ''
+        },
+        changeOrigin: true
+      }
+    }
+  },
   // 配置方式二：以函数形式
   // configureWebpack: (config) => {
   //   config.resolve.alias = {
