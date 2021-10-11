@@ -15,4 +15,5 @@ const app = createApp(App); // 创建
 app.use(router); // 注册路由
 app.use(store); // 注册 vuex
 app.use(ElementPlus); // 全局注册 Element -plus
+setupStore();
 app.mount('#app'); // 挂载 app

@@ -11,7 +11,9 @@ const Service = new ServiceRequest({
       // 携带 token 拦截
       const token = LocalCache.getCache('token');
       if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+        if (config.headers) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
       }
       return config;
     },

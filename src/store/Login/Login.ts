@@ -55,15 +55,15 @@ const loginModule: Module<ILoginState, IRootState> = {
     },
     loadLocalLogin({ commit }) {
       const token = LocalCache.getCache('token');
-      if (!token) {
+      if (token) {
         commit('changeToken', token);
       }
       const userInfo = LocalCache.getCache('userInfo');
-      if (!userInfo) {
+      if (userInfo) {
         commit('changeUserInfo', userInfo);
       }
       const userMenus = LocalCache.getCache('userMenus');
-      if (!userMenus) {
+      if (userMenus) {
         commit('changeUserMenus', userMenus);
       }
     }
