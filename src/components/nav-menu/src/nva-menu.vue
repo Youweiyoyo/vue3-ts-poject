@@ -2,9 +2,10 @@
   <div class="nav-menu">
     <div class="logo">
       <img src="../../../assets/img/logo.svg" alt="logo" class="img" />
-      <span class="title">V3+Ts管理系统</span>
+      <span v-if="!collapse" class="title">V3+Ts</span>
     </div>
     <el-menu
+      :collapse="collapse"
       default-active="2"
       class="el-menu-vertical-demo"
       background-color="#0c2135"
@@ -41,6 +42,12 @@
 import { defineComponent, computed } from 'vue';
 import { useStore } from '@/store/index.ts';
 export default defineComponent({
+  props: {
+    collapse: {
+      type: Boolean,
+      default: false
+    }
+  },
   setup() {
     const store = useStore();
     const userMenus = computed(() => store.state.login.userMenus);
@@ -74,7 +81,9 @@ export default defineComponent({
       color: white;
     }
   }
-
+  .el-menu {
+    border-right: none;
+  }
   // 目录
   .el-submenu {
     background-color: #001529 !important;
