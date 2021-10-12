@@ -4,24 +4,30 @@
       <img src="../../../assets/img/logo.svg" alt="logo" class="img" />
       <span class="title">V3+Ts管理系统</span>
     </div>
-    <el-menu default-active="2" class="el-menu-vertical-demo">
+    <el-menu
+      default-active="2"
+      class="el-menu-vertical-demo"
+      background-color="#0c2135"
+      text-color="#b7bdc3"
+      active-text-color="#0a60bd"
+    >
       <template v-for="item in userMenus" :key="item.id">
         <template v-if="item.type === 1">
-          <el-sub-menu>
+          <el-sub-menu :index="item.id + ''">
             <template #title>
               <i v-if="item.icon" :class="item.icon"></i>
               <span>{{ item.name }}</span>
             </template>
+            <template v-for="subItem in item.children" :key="subItem.id">
+              <el-menu-item :index="subItem.id + ''">
+                <i v-if="subItem.icon" :class="subItem.icon"></i>
+                <span>{{ subItem.name }}</span>
+              </el-menu-item>
+            </template>
           </el-sub-menu>
-          <template v-for="subItem in item.children" :key="subItem.id">
-            <el-menu-item>
-              <i v-if="subItem.icon" :class="subItem.icon"></i>
-              <span>{{ subItem.name }}</span>
-            </el-menu-item>
-          </template>
         </template>
         <template v-else-if="item.type === 2">
-          <el-menu-item>
+          <el-menu-item :index="item.id + ''">
             <i v-if="item.icon" :class="item.icon"></i>
             <span>{{ item.name }}</span>
           </el-menu-item>

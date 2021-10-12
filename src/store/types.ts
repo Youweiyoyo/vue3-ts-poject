@@ -5,7 +5,7 @@ export interface IRootState {
 }
 
 export interface IRootWithModule {
-  login:ILoginState;
+  login: ILoginState;
 }
 
 // 交叉类型
