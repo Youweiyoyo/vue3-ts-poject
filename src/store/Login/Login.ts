@@ -6,6 +6,7 @@ import {
   requestUserMenusByRoleId
 } from '@/network/Login/login';
 import LocalCache from '@/utils/cache';
+import { mapMenusToRoutes } from '@/utils/mapMenus';
 import { IAccount } from '@/network/Login/types';
 import { ILoginState } from './types';
 import { IRootState } from '../types';
@@ -28,6 +29,10 @@ const loginModule: Module<ILoginState, IRootState> = {
     },
     changeUserMenus(state, userMenus: any) {
       state.userMenus = userMenus;
+      const routes = mapMenusToRoutes(userMenus);
+      routes.forEach((item) => {
+        router.addRoute('main', item);
+      });
     }
   },
   getters: {},
