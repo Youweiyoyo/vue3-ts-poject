@@ -1,10 +1,10 @@
 <template>
   <div class="form">
-    <el-form label-width="100">
+    <el-form :label-width="labelWidth">
       <el-row>
         <template v-for="item in formItem" :key="item.label">
-          <el-col :span="8">
-            <el-form-item :label="item.label">
+          <el-col :span="8" v-bind="colLayout">
+            <el-form-item :label="item.label" :rules="item.rules" :style="itemStyle">
               <template v-if="item.type === 'input' || item.type === 'password'">
                 <el-input
                   :placeholder="item.placeholder"
@@ -41,6 +41,26 @@ export default defineComponent({
     formItem: {
       type: Array as PropType<IFormItem[]>,
       default: () => []
+    },
+    labelWidth: {
+      type: String,
+      default: '100px'
+    },
+    colLayout: {
+      type: Object,
+      default: () => ({
+        xs: 24,
+        sm: 24,
+        md: 12,
+        lg: 8,
+        xl: 6
+      })
+    },
+    itemStyle: {
+      type: Object,
+      default: () => ({
+        padding: '0 10px'
+      })
     }
   },
   setup() {
