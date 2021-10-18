@@ -6,7 +6,7 @@
     </div>
     <el-menu
       :collapse="collapse"
-      default-active="2"
+      :default-active="defaultValue"
       class="el-menu-vertical-demo"
       background-color="#0c2135"
       text-color="#b7bdc3"
@@ -39,9 +39,10 @@
 </template>
 
 <script>
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, ref } from 'vue';
 import { useStore } from '@/store/index.ts';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
+import { pathMapToMenu } from '@/utils/mapMenus';
 export default defineComponent({
   props: {
     collapse: {
@@ -51,6 +52,8 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter();
+    const route = useRoute();
+    const currentPath = route.path;
     const store = useStore();
     const userMenus = computed(() => store.state.login.userMenus);
     const handleMenuItemClick = (item) => {
@@ -58,8 +61,11 @@ export default defineComponent({
         path: item.url ?? '/not-found'
       });
     };
+    const menu = pathMapToMenu(userMenus.value, currentPath);
+    const defaultValue = ref(menu.id + '');
     return {
       userMenus,
+      defaultValue,
       handleMenuItemClick
     };
   }

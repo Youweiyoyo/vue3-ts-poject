@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 // 导入路由数组的类型
 import type { RouteRecordRaw } from 'vue-router';
 import LocalCache from '@/utils/cache';
+import { firstMenu } from '@/utils/mapMenus';
 // 定义路由数组
 const routes: RouteRecordRaw[] = [
   {
@@ -35,6 +36,9 @@ router.beforeEach((to) => {
     if (!token) {
       return '/login';
     }
+  }
+  if (to.path === '/main') {
+    return firstMenu.url;
   }
 });
 export default router;

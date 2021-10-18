@@ -1,4 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
+import { IBreadcrumb } from '@/components/breadcrumb';
+let firstMenu: any = null;
 export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   const routes: RouteRecordRaw[] = [];
   // 1. 先获取所有的路由
@@ -15,6 +17,9 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
       if (menu.type === 2) {
         const route = allRoutes.find((item) => item.path === menu.url);
         if (route) routes.push(route);
+        if (!firstMenu) {
+          firstMenu = menu;
+        }
       } else {
         _recurseGetRoute(menu.children);
       }
@@ -23,3 +28,29 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   _recurseGetRoute(userMenus);
   return routes;
 }
+
+export function pathMapBreadcrumbs(userMenus: any[], currentPath: string) {
+  const breadcrumbs: IBreadcrumb[] = [];
+  pathMapToMenu(userMenus, currentPath, breadcrumbs);
+  return breadcrumbs;
+}
+
+export function pathMapToMenu(
+  userMenus: any[],
+  currentPath: string,
+  breadcrumbs?: IBreadcrumb[]
+): any {
+  for (const menu of userMenus) {
+    if (menu.type === 1) {
+      const findMenu = pathMapToMenu(menu.children ?? [], currentPath);
+      if (findMenu) {
+        breadcrumbs?.push({ name: menu.name, path: menu.url });
+        breadcrumbs?.push({ name: findMenu.name, path: findMenu.url });
+        return findMenu;
+      }
+    } else if (menu.type === 2 && menu.url === currentPath) {
+      return menu;
+    }
+  }
+}
+export { firstMenu };
