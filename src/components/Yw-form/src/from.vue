@@ -7,12 +7,18 @@
             <el-form-item :label="item.label" :rules="item.rules" :style="itemStyle">
               <template v-if="item.type === 'input' || item.type === 'password'">
                 <el-input
+                  v-model="formData[`${item.field}`]"
                   :placeholder="item.placeholder"
                   :show-password="item.type === 'password'"
                 />
               </template>
               <template v-else-if="item.type === 'select'">
-                <el-select :placeholder="item.placeholder" style="width: 100%">
+                <el-select
+                  :placeholder="item.placeholder"
+                  v-model="formData[`${item.field}`]"
+                  v-bind="item.otherOptions"
+                  style="width: 100%"
+                >
                   <el-option
                     v-for="option in item.option"
                     :value="option.value"
@@ -23,7 +29,11 @@
               </template>
               <template v-else-if="item.type === 'datepicker'">
                 <!-- 这里的使用 v-bind 意味着可以不管这些属性，全部绑定进 组件 -->
-                <el-date-picker style="width: 100%" v-bind="item.otherOptions"></el-date-picker>
+                <el-date-picker
+                  style="width: 100%"
+                  v-bind="item.otherOptions"
+                  v-model="formData[`${item.field}`]"
+                ></el-date-picker>
               </template>
             </el-form-item>
           </el-col>
@@ -33,11 +43,16 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, ref, watch } from 'vue';
 import { IFormItem } from '../types';
 
 export default defineComponent({
+  emits: ['update:modelValue'],
   props: {
+    modelValue: {
+      type: Object,
+      required: true
+    },
     formItem: {
       type: Array as PropType<IFormItem[]>,
       default: () => []
@@ -63,8 +78,12 @@ export default defineComponent({
       })
     }
   },
-  setup() {
-    return {};
+  setup(props, { emit }) {
+    const formData = ref({ ...props.modelValue });
+    watch(formData, (newValue) => emit('update:modelValue', newValue), { deep: true });
+    return {
+      formData
+    };
   }
 });
 </script>
