@@ -2,7 +2,11 @@
   <div class="user">
     <page-search :searchFormConfig="searchFormConfig" />
     <div class="content">
-      <yw-table :listData="userList" :propList="propList"></yw-table>
+      <yw-table :listData="userList" :propList="propList">
+        <template #enable="scope">
+          <el-button>{{ scope.row.enable ? '启用' : '禁用' }}</el-button>
+        </template>
+      </yw-table>
     </div>
   </div>
 </template>
@@ -35,9 +39,9 @@ export default defineComponent({
       { prop: 'name', label: '用户名', minWidth: '100' },
       { prop: 'realname', label: '真实姓名', minWidth: '100' },
       { prop: 'cellphone', label: '手机号码', minWidth: '100' },
-      { prop: 'enable', label: '状态', minWidth: '100' },
+      { prop: 'enable', label: '状态', minWidth: '100', slotName: 'enable' },
       { prop: 'createAt', label: '创建时间', minWidth: '100' },
-      { prop: 'name', label: '更新时间', minWidth: '100' }
+      { prop: 'name', label: '更新时间', minWidth: '100', slotName: 'updateTime' }
     ];
     return {
       searchFormConfig,
