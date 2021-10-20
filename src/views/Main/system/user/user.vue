@@ -1,34 +1,37 @@
 <template>
   <div class="user">
-    <div class="search">
-      <yw-form v-bind="searchFormConfig" v-model="formData" />
-    </div>
+    <page-search :searchFormConfig="searchFormConfig" />
     <div class="content"></div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import YwForm from '@/components/Yw-form';
+import { defineComponent } from 'vue';
+import PageSearch from '@/components/page-search';
 import { searchFormConfig } from './config/searceForm.config';
 export default defineComponent({
   name: 'user',
   components: {
-    YwForm
+    PageSearch
   },
   setup() {
-    const formData = ref({
-      name: '',
-      password: '',
-      sport: '',
-      createTime: ''
-    });
     return {
-      formData,
       searchFormConfig
     };
   }
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="less">
+.user {
+  .search {
+    .header {
+      color: red;
+    }
+    .footer {
+      text-align: right;
+      margin: 0 50px 20px 0;
+    }
+  }
+}
+</style>
