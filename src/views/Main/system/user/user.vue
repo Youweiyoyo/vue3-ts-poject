@@ -2,11 +2,7 @@
   <div class="user">
     <page-search :searchFormConfig="searchFormConfig" />
     <div class="content">
-      <el-table :data="userList" border>
-        <template v-for="propItem in propList" :key="propItem.prop">
-          <el-table-column v-bind="propItem" align="center"></el-table-column>
-        </template>
-      </el-table>
+      <yw-table :listData="userList" :propList="propList"></yw-table>
     </div>
   </div>
 </template>
@@ -15,11 +11,13 @@
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
 import PageSearch from '@/components/page-search';
+import YwTable from '@/components/Yw-table';
 import { searchFormConfig } from './config/searceForm.config';
 export default defineComponent({
   name: 'user',
   components: {
-    PageSearch
+    PageSearch,
+    YwTable
   },
   setup() {
     const store = useStore();
