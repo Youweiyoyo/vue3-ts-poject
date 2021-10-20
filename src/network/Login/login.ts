@@ -1,5 +1,6 @@
 import ServiceRequest from '../index';
-import { IAccount, IDataType, ILoginResult } from './types';
+import { IAccount, ILoginResult } from './types';
+import { IDataType } from '../type';
 enum LoginAPI {
   AccountLogin = '/login',
   userInfo = '/users/',

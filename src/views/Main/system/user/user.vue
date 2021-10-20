@@ -1,12 +1,19 @@
 <template>
   <div class="user">
     <page-search :searchFormConfig="searchFormConfig" />
-    <div class="content"></div>
+    <div class="content">
+      <el-table :data="userList" border>
+        <template v-for="propItem in propList" :key="propItem.prop">
+          <el-table-column v-bind="propItem" align="center"></el-table-column>
+        </template>
+      </el-table>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
+import { useStore } from 'vuex';
 import PageSearch from '@/components/page-search';
 import { searchFormConfig } from './config/searceForm.config';
 export default defineComponent({
@@ -15,23 +22,37 @@ export default defineComponent({
     PageSearch
   },
   setup() {
+    const store = useStore();
+    store.dispatch('system/getPageListAction', {
+      pageUrl: '/users/list',
+      queryInfo: {
+        offset: 0,
+        size: 10
+      }
+    });
+    const userList = computed(() => store.state.system.userList);
+    const userCount = computed(() => store.state.system.userCount);
+    const propList = [
+      { type: 'index', label: '序号', minWidth: '50', width: '50' },
+      { prop: 'name', label: '用户名', minWidth: '100' },
+      { prop: 'realname', label: '真实姓名', minWidth: '100' },
+      { prop: 'cellphone', label: '手机号码', minWidth: '100' },
+      { prop: 'enable', label: '状态', minWidth: '100' },
+      { prop: 'createAt', label: '创建时间', minWidth: '100' },
+      { prop: 'name', label: '更新时间', minWidth: '100' }
+    ];
     return {
-      searchFormConfig
+      searchFormConfig,
+      userList,
+      userCount,
+      propList
     };
   }
 });
 </script>
 
 <style scoped lang="less">
-.user {
-  .search {
-    .header {
-      color: red;
-    }
-    .footer {
-      text-align: right;
-      margin: 0 50px 20px 0;
-    }
-  }
+.content {
+  padding: 20px;
 }
 </style>

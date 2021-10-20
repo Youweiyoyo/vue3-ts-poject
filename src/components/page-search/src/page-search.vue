@@ -41,4 +41,16 @@ export default defineComponent({
   }
 });
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.user {
+  .search {
+    .header {
+      color: red;
+    }
+    .footer {
+      text-align: right;
+      margin: 0 50px 20px 0;
+    }
+  }
+}
+</style>
