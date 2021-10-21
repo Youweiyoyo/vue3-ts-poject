@@ -4,7 +4,15 @@
     <div class="content">
       <yw-table :listData="userList" :propList="propList">
         <template #enable="scope">
-          <el-button>{{ scope.row.enable ? '启用' : '禁用' }}</el-button>
+          <el-button size="mini" :type="scope.row.enable ? 'success' : 'danger'">{{
+            scope.row.enable ? '启用' : '禁用'
+          }}</el-button>
+        </template>
+        <template #createTime="scope">
+          {{ $dayjs(scope.row.createAt).format('YYYY-MM-DD HH:mm:ss') }}
+        </template>
+        <template #updateTime="scope">
+          {{ $dayjs(scope.row.updateTime).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
       </yw-table>
     </div>
@@ -36,12 +44,12 @@ export default defineComponent({
     const userCount = computed(() => store.state.system.userCount);
     const propList = [
       { type: 'index', label: '序号', minWidth: '50', width: '50' },
-      { prop: 'name', label: '用户名', minWidth: '100' },
-      { prop: 'realname', label: '真实姓名', minWidth: '100' },
+      { prop: 'name', label: '用户名', minWidth: '50' },
+      { prop: 'realname', label: '真实姓名', minWidth: '50' },
       { prop: 'cellphone', label: '手机号码', minWidth: '100' },
-      { prop: 'enable', label: '状态', minWidth: '100', slotName: 'enable' },
-      { prop: 'createAt', label: '创建时间', minWidth: '100' },
-      { prop: 'name', label: '更新时间', minWidth: '100', slotName: 'updateTime' }
+      { prop: 'enable', label: '状态', minWidth: '50', slotName: 'enable' },
+      { prop: 'createAt', label: '创建时间', minWidth: '100', slotName: 'createTime' },
+      { prop: 'updateAt', label: '更新时间', minWidth: '100', slotName: 'updateTime' }
     ];
     return {
       searchFormConfig,

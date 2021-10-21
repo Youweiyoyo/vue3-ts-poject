@@ -8,6 +8,8 @@ import './assets/css/index.less';
 // 全局注册Element—plus
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
+// 引入 day.js
+import dayjs from 'dayjs';
 // import './network/axios.demo';
 // createApp(App).use(router).use(store).mount('#app');
 // 上下代码等效  mount 的挂载一定要在 use 之后
@@ -16,4 +18,5 @@ app.use(store); // 注册 vuex
 app.use(ElementPlus); // 全局注册 Element -plus
 setupStore();
 app.use(router); // 注册路由
+app.config.globalProperties.$dayjs = dayjs;
 app.mount('#app'); // 挂载 app
