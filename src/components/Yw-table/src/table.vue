@@ -40,22 +40,27 @@
 import { defineComponent } from 'vue';
 export default defineComponent({
   props: {
+    // 列表
     listData: {
       type: Array,
       required: true
     },
+    // 配置选项
     propList: {
       type: Array,
       required: true
     },
+    // 是否显示索引列
     showIndexColumn: {
       type: Boolean,
       default: false
     },
+    // 是否显示复选框列
     showSelection: {
       type: Boolean,
       default: false
     },
+    // 列表 title
     title: {
       type: String,
       default: '用户列表'
