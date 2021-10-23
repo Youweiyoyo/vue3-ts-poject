@@ -7,7 +7,9 @@
         </template>
         <template #footer>
           <div class="footer">
-            <el-button type="primary" icon="el-icon-refresh">重置</el-button>
+            <el-button type="primary" icon="el-icon-refresh" @click="formDataRefresh"
+              >重置</el-button
+            >
             <el-button type="primary" icon="el-icon-search">搜索</el-button>
           </div>
         </template>
@@ -28,15 +30,19 @@ export default defineComponent({
   components: {
     YwForm
   },
-  setup() {
-    const formData = ref({
-      name: '',
-      password: '',
-      sport: '',
-      createTime: ''
-    });
+  setup(pros) {
+    const formItems = pros.searchFormConfig.formItems ?? [];
+    const formOriginData: any = {};
+    for (const item of formItems) {
+      formOriginData[item.field] = '';
+    }
+    const formData = ref(formOriginData);
+    const formDataRefresh = () => {
+      formData.value = formOriginData;
+    };
     return {
-      formData
+      formData,
+      formDataRefresh
     };
   }
 });
