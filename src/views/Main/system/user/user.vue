@@ -3,15 +3,14 @@
     <page-search :searchFormConfig="searchFormConfig" />
     <page-content
       :pageContentConfig="pageContentConfig"
-      :userList="userList"
+      pageName="users"
       @selectionChange="handleSelection"
     />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
-import { useStore } from 'vuex';
+import { defineComponent } from 'vue';
 import PageSearch from '@/components/page-search';
 import PageContent from '@/components/page-content';
 import { searchFormConfig } from './config/searceForm.config';
@@ -23,23 +22,11 @@ export default defineComponent({
     PageContent
   },
   setup() {
-    const store = useStore();
-    store.dispatch('system/getPageListAction', {
-      pageUrl: '/users/list',
-      queryInfo: {
-        offset: 0,
-        size: 10
-      }
-    });
-    const userList = computed(() => store.state.system.userList);
-    const userCount = computed(() => store.state.system.userCount);
     const handleSelection = (val: any) => {
       console.log(val, 'val');
     };
     return {
       searchFormConfig,
-      userList,
-      userCount,
       handleSelection,
       pageContentConfig
     };

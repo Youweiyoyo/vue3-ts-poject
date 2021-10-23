@@ -1,6 +1,10 @@
 <template>
   <div class="page-content">
-    <yw-table :listData="userList" v-bind="pageContentConfig" @selectionChange="handleSelection">
+    <yw-table
+      :listData="PageDataList"
+      v-bind="pageContentConfig"
+      @selectionChange="handleSelection"
+    >
       <template #handleHeader>
         <el-button type="primary">新建用户</el-button>
         <el-button icon="el-icon-refresh"></el-button>
@@ -24,7 +28,8 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
+import { useStore } from 'vuex';
 import YwTable from '@/components/Yw-table';
 export default defineComponent({
   emits: ['selectionChange'],
@@ -33,8 +38,8 @@ export default defineComponent({
       type: Object,
       required: true
     },
-    userList: {
-      type: Array,
+    pageName: {
+      type: String,
       required: true
     }
   },
@@ -42,10 +47,25 @@ export default defineComponent({
     YwTable
   },
   setup(props, { emit }) {
+    const store = useStore();
+    store.dispatch('system/getPageListAction', {
+      pageName: props.pageName,
+      queryInfo: {
+        offset: 0,
+        size: 10
+      }
+    });
+    // const userList = computed(() => store.state.system.userList);
+    // const userCount = computed(() => store.state.system.userCount);
+    // 调用某个模块下的 getter属性 并传值
+    const PageDataList = computed(() => store.getters['system/pageListData'](props.pageName));
     const handleSelection = (data: any) => {
       emit('selectionChange', data);
     };
     return {
+      // userList,
+      // userCount,
+      PageDataList,
       handleSelection
     };
   }

@@ -7,7 +7,9 @@ const systemModel: Module<ISystemState, IRootState> = {
   state() {
     return {
       userList: [],
-      userCount: 0
+      userCount: 0,
+      roleList: [],
+      roleCount: 0
     };
   },
   mutations: {
@@ -16,15 +18,51 @@ const systemModel: Module<ISystemState, IRootState> = {
     },
     changeUserCount(state, userCount: number) {
       state.userCount = userCount;
+    },
+    changeRoleList(state, roleList: any) {
+      state.roleList = roleList;
+    },
+    changeRoleCount(state, roleCount: number) {
+      state.roleCount = roleCount;
     }
   },
   actions: {
     async getPageListAction({ commit }, payload: any) {
+      // 0. 获取页面的 URL
+      const pageName = payload.pageName;
+      let pageUrl = '';
+      switch (pageName) {
+        case 'users':
+          pageUrl = '/users/list';
+          break;
+        case 'role':
+          pageUrl = '/role/list';
+          break;
+      }
       // 1. 发送请求
-      const PageResult = await getPageListData(payload.pageUrl, payload.queryInfo);
+      const PageResult = await getPageListData(pageUrl, payload.queryInfo);
       const { list, totalCount } = PageResult.data;
-      commit('changeUserList', list);
-      commit('changeUserCount', totalCount);
+      switch (pageName) {
+        case 'users':
+          commit('changeUserList', list);
+          commit('changeUserCount', totalCount);
+          break;
+        case 'role':
+          commit('changeRoleList', list);
+          commit('changeRoleCount', totalCount);
+      }
+    }
+  },
+  getters: {
+    pageListData(state) {
+      return (pageName: string) => {
+        switch (pageName) {
+          case 'users':
+            return state.userList;
+          case 'role':
+            return state.roleList;
+        }
+      };
     }
   }
 };
