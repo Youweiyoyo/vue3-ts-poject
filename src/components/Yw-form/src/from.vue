@@ -10,7 +10,9 @@
             <el-form-item :label="item.label" :rules="item.rules" :style="itemStyle">
               <template v-if="item.type === 'input' || item.type === 'password'">
                 <el-input
-                  v-model="formData[`${item.field}`]"
+                  v-bind="item.otherOptions"
+                  :model-value="modelValue[`${item.field}`]"
+                  @update:modelValue="handelValueChange($event, item.field)"
                   :placeholder="item.placeholder"
                   :show-password="item.type === 'password'"
                 />
@@ -18,7 +20,8 @@
               <template v-else-if="item.type === 'select'">
                 <el-select
                   :placeholder="item.placeholder"
-                  v-model="formData[`${item.field}`]"
+                  :model-value="modelValue[`${item.field}`]"
+                  @update:modelValue="handelValueChange($event, item.field)"
                   v-bind="item.otherOptions"
                   style="width: 100%"
                 >
@@ -35,7 +38,8 @@
                 <el-date-picker
                   style="width: 100%"
                   v-bind="item.otherOptions"
-                  v-model="formData[`${item.field}`]"
+                  :model-value="modelValue[`${item.field}`]"
+                  @update:modelValue="handelValueChange($event, item.field)"
                 ></el-date-picker>
               </template>
             </el-form-item>
@@ -85,10 +89,11 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
-    const formData = ref({ ...props.modelValue });
-    watch(formData, (newValue) => emit('update:modelValue', newValue), { deep: true });
+    const handelValueChange = (value: any, field: string) => {
+      emit('update:modelValue', { ...props.modelValue, [field]: value });
+    };
     return {
-      formData
+      handelValueChange
     };
   }
 });
