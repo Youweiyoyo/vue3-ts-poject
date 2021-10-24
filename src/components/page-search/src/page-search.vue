@@ -10,7 +10,7 @@
             <el-button type="primary" icon="el-icon-refresh" @click="formDataRefresh"
               >重置</el-button
             >
-            <el-button type="primary" icon="el-icon-search">搜索</el-button>
+            <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
           </div>
         </template>
       </yw-form>
@@ -27,10 +27,11 @@ export default defineComponent({
       required: true
     }
   },
+  emits: ['RefreshBtnClick', 'queryBtnClick'],
   components: {
     YwForm
   },
-  setup(pros) {
+  setup(pros, { emit }) {
     const formItems = pros.searchFormConfig.formItems ?? [];
     const formOriginData: any = {};
     for (const item of formItems) {
@@ -39,10 +40,15 @@ export default defineComponent({
     const formData = ref(formOriginData);
     const formDataRefresh = () => {
       formData.value = formOriginData;
+      emit('RefreshBtnClick');
+    };
+    const handleQuery = () => {
+      emit('queryBtnClick', formData.value);
     };
     return {
       formData,
-      formDataRefresh
+      formDataRefresh,
+      handleQuery
     };
   }
 });

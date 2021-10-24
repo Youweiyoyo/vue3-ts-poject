@@ -48,13 +48,17 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const store = useStore();
-    store.dispatch('system/getPageListAction', {
-      pageName: props.pageName,
-      queryInfo: {
-        offset: 0,
-        size: 10
-      }
-    });
+    const getPageData = (queryInfo: any = {}) => {
+      store.dispatch('system/getPageListAction', {
+        pageName: props.pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10,
+          ...queryInfo
+        }
+      });
+    };
+    getPageData();
     // const userList = computed(() => store.state.system.userList);
     // const userCount = computed(() => store.state.system.userCount);
     // 调用某个模块下的 getter属性 并传值
@@ -66,7 +70,8 @@ export default defineComponent({
       // userList,
       // userCount,
       PageDataList,
-      handleSelection
+      handleSelection,
+      getPageData
     };
   }
 });
