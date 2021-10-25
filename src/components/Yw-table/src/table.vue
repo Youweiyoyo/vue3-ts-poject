@@ -12,7 +12,7 @@
       <el-table-column v-if="showSelection" width="50" align="center" type="selection" />
       <el-table-column v-if="showIndexColumn" type="index" align="center" label="序号" width="50" />
       <template v-for="propItem in propList" :key="propItem.prop">
-        <el-table-column v-bind="propItem" align="center">
+        <el-table-column v-bind="propItem" align="center" show-overflow-tooltip>
           <template #default="scope">
             <slot :name="propItem.slotName" :row="scope.row">
               {{ scope.row[propItem.prop] }}
@@ -69,6 +69,7 @@ export default defineComponent({
       type: String,
       default: '用户列表'
     },
+    // 分页
     pageInfo: {
       type: Object,
       default: () => ({ pageSize: 10, currentPage: 0 })

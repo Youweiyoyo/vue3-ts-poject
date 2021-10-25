@@ -22,6 +22,13 @@
       <template #updateTime="scope">
         {{ $dayjs(scope.row.updateTime).format('YYYY-MM-DD HH:mm:ss') }}
       </template>
+      <template #image="scope">
+        <el-image
+          style="width: 60px; height: 60px"
+          :src="scope.row.imgUrl"
+          :preview-src-list="[scope.row.imgUrl]"
+        />
+      </template>
       <template #handle>
         <el-button plain size="small" type="primary" icon="el-icon-edit">编辑</el-button>
         <el-button plain size="small" type="danger" icon="el-icon-delete">删除</el-button>
