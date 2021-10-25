@@ -26,11 +26,11 @@
         <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-          :current-page="currentPage4"
-          :page-sizes="[100, 200, 300, 400]"
-          :page-size="100"
+          :current-page="pageInfo.currentPage"
+          :page-sizes="[10, 20, 30]"
+          :page-size="pageInfo.pageSize"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="400"
+          :total="listCount"
         />
       </slot>
     </div>
@@ -44,6 +44,10 @@ export default defineComponent({
     listData: {
       type: Array,
       required: true
+    },
+    listCount: {
+      type: Number,
+      default: 0
     },
     // 配置选项
     propList: {
@@ -64,15 +68,27 @@ export default defineComponent({
     title: {
       type: String,
       default: '用户列表'
+    },
+    pageInfo: {
+      type: Object,
+      default: () => ({ pageSize: 10, currentPage: 0 })
     }
   },
-  emits: ['selectionChange'],
+  emits: ['selectionChange', 'update:pageInfo'],
   setup(props, { emit }) {
     const handleSelectionChange = (value: any) => {
       emit('selectionChange', value);
     };
+    const handleSizeChange = (pageSize: number) => {
+      emit('update:pageInfo', { ...props.pageInfo, pageSize });
+    };
+    const handleCurrentChange = (currentPage: number) => {
+      emit('update:pageInfo', { ...props.pageInfo, currentPage });
+    };
     return {
-      handleSelectionChange
+      handleSelectionChange,
+      handleSizeChange,
+      handleCurrentChange
     };
   }
 });
