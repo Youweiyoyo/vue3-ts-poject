@@ -8,7 +8,13 @@
         </div>
       </slot>
     </div>
-    <el-table :data="listData" border @selection-change="handleSelectionChange">
+    <el-table
+      :data="listData"
+      border
+      @selection-change="handleSelectionChange"
+      row-key="id"
+      :tree-props="{ children: 'children' }"
+    >
       <el-table-column v-if="showSelection" width="50" align="center" type="selection" />
       <el-table-column v-if="showIndexColumn" type="index" align="center" label="序号" width="50" />
       <template v-for="propItem in propList" :key="propItem.prop">

@@ -22,16 +22,15 @@
       <template #updateTime="scope">
         {{ $dayjs(scope.row.updateTime).format('YYYY-MM-DD HH:mm:ss') }}
       </template>
-      <template #image="scope">
-        <el-image
-          style="width: 60px; height: 60px"
-          :src="scope.row.imgUrl"
-          :preview-src-list="[scope.row.imgUrl]"
-        />
-      </template>
       <template #handle>
         <el-button plain size="small" type="primary" icon="el-icon-edit">编辑</el-button>
         <el-button plain size="small" type="danger" icon="el-icon-delete">删除</el-button>
+      </template>
+      <!--  动态插入剩余插槽   -->
+      <template v-for="item in otherPropSlots" :key="item.prop" #[item.slotName]="scope">
+        <template v-if="item.slotName">
+          <slot :name="item.slotName" :row="scope.row"></slot>
+        </template>
       </template>
     </yw-table>
   </div>
@@ -70,14 +69,22 @@ export default defineComponent({
       });
     };
     getPageData();
-    // const userList = computed(() => store.state.system.userList);
-    // const userCount = computed(() => store.state.system.userCount);
     // 调用某个模块下的 getter属性 并传值
     const PageDataList = computed(() => store.getters['system/pageListData'](props.pageName));
     const PageDataCount = computed(() => store.getters['system/pageListCount'](props.pageName));
     const handleSelection = (data: any) => {
       emit('selectionChange', data);
     };
+    // 获取其他插槽名称
+    // 基础 slot 直接写在组件内过滤掉
+    // 页面自定义 slot 通过页面 slot 传入，不进行过滤
+    const otherPropSlots = props.pageContentConfig?.propList.filter((item: any) => {
+      if (item.slotName === 'enable') return false;
+      if (item.slotName === 'createAt') return false;
+      if (item.slotName === 'updateAt') return false;
+      if (item.slotName === 'handle') return false;
+      return true;
+    });
     return {
       // userList,
       // userCount,
@@ -85,7 +92,8 @@ export default defineComponent({
       PageDataCount,
       handleSelection,
       getPageData,
-      page
+      page,
+      otherPropSlots
     };
   }
 });
