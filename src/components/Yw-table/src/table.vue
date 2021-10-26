@@ -12,8 +12,7 @@
       :data="listData"
       border
       @selection-change="handleSelectionChange"
-      row-key="id"
-      :tree-props="{ children: 'children' }"
+      v-bind="childrenProps"
     >
       <el-table-column v-if="showSelection" width="50" align="center" type="selection" />
       <el-table-column v-if="showIndexColumn" type="index" align="center" label="序号" width="50" />
@@ -27,7 +26,7 @@
         </el-table-column>
       </template>
     </el-table>
-    <div class="foot">
+    <div class="foot" v-if="showFooter">
       <slot name="foot">
         <el-pagination
           @size-change="handleSizeChange"
@@ -79,6 +78,16 @@ export default defineComponent({
     pageInfo: {
       type: Object,
       default: () => ({ pageSize: 10, currentPage: 0 })
+    },
+    // 表格二级菜单
+    childrenProps: {
+      type: Object,
+      default: () => ({})
+    },
+    // 是否显示分页
+    showFooter: {
+      type: Boolean,
+      default: true
     }
   },
   emits: ['selectionChange', 'update:pageInfo'],

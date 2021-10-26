@@ -20,6 +20,12 @@
           scope.row.status ? '启用' : '禁用'
         }}</el-tag>
       </template>
+      <template #createTime="scope">
+        <span>{{ $dayjs(scope.row.createTime).format('YYYY-MM-DD HH:mm:ss') }}</span>
+      </template>
+      <template #updateTime="scope">
+        <span>{{ $dayjs(scope.row.updateTime).format('YYYY-MM-DD HH:mm:ss') }}</span>
+      </template>
     </page-count>
   </div>
 </template>

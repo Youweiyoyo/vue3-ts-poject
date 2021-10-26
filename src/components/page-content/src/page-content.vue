@@ -8,7 +8,7 @@
       @selectionChange="handleSelection"
     >
       <template #handleHeader>
-        <el-button type="primary">新建用户</el-button>
+        <el-button v-if="isCreate" type="primary">新建用户</el-button>
         <el-button icon="el-icon-refresh"></el-button>
       </template>
       <template #enable="scope">
@@ -23,8 +23,12 @@
         {{ $dayjs(scope.row.updateTime).format('YYYY-MM-DD HH:mm:ss') }}
       </template>
       <template #handle>
-        <el-button plain size="small" type="primary" icon="el-icon-edit">编辑</el-button>
-        <el-button plain size="small" type="danger" icon="el-icon-delete">删除</el-button>
+        <el-button v-if="isUpdate" plain size="small" type="primary" icon="el-icon-edit"
+          >编辑</el-button
+        >
+        <el-button v-if="isDelete" plain size="small" type="danger" icon="el-icon-delete"
+          >删除</el-button
+        >
       </template>
       <!--  动态插入剩余插槽   -->
       <template v-for="item in otherPropSlots" :key="item.prop" #[item.slotName]="scope">
@@ -38,6 +42,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
+import { usePermission } from '@/hooks/use-permission';
 import YwTable from '@/components/Yw-table';
 export default defineComponent({
   emits: ['selectionChange'],
@@ -55,10 +60,16 @@ export default defineComponent({
     YwTable
   },
   setup(props, { emit }) {
+    // 获取权限
+    const isCreate = usePermission(props.pageName, 'create');
+    const isUpdate = usePermission(props.pageName, 'update');
+    const isDelete = usePermission(props.pageName, 'delete');
+    const isQuery = usePermission(props.pageName, 'query');
     const store = useStore();
     const page = ref({ pageSize: 10, currentPage: 0 });
     watch(page, () => getPageData());
     const getPageData = (queryInfo: any = {}) => {
+      if (!isQuery) return;
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
         queryInfo: {
@@ -93,7 +104,10 @@ export default defineComponent({
       handleSelection,
       getPageData,
       page,
-      otherPropSlots
+      otherPropSlots,
+      isCreate,
+      isUpdate,
+      isDelete
     };
   }
 });

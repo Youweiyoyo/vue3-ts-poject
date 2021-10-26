@@ -11,5 +11,11 @@ export const pageContentConfig = {
   ],
   title: '商品列表',
   showIndexColumn: true,
-  showSelection: true
+  showSelection: true,
+  childrenProps: {
+    rowKey: 'id',
+    treeProp: {
+      children: 'children'
+    }
+  }
 };
