@@ -8,7 +8,7 @@
       @selectionChange="handleSelection"
     >
       <template #handleHeader>
-        <el-button v-if="isCreate" type="primary">新建用户</el-button>
+        <el-button v-if="isCreate" type="primary">{{ ButtonName }}</el-button>
         <el-button icon="el-icon-refresh"></el-button>
       </template>
       <template #enable="scope">
@@ -16,11 +16,11 @@
           scope.row.enable ? '启用' : '禁用'
         }}</el-tag>
       </template>
-      <template #createTime="scope">
+      <template #createAt="scope">
         {{ $dayjs(scope.row.createAt).format('YYYY-MM-DD HH:mm:ss') }}
       </template>
-      <template #updateTime="scope">
-        {{ $dayjs(scope.row.updateTime).format('YYYY-MM-DD HH:mm:ss') }}
+      <template #updateAt="scope">
+        {{ $dayjs(scope.row.updateAt).format('YYYY-MM-DD HH:mm:ss') }}
       </template>
       <template #handle>
         <el-button v-if="isUpdate" plain size="small" type="primary" icon="el-icon-edit"
@@ -54,6 +54,10 @@ export default defineComponent({
     pageName: {
       type: String,
       required: true
+    },
+    ButtonName: {
+      type: String,
+      default: '新建按钮'
     }
   },
   components: {

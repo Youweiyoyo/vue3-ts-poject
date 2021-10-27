@@ -11,7 +11,9 @@ const systemModel: Module<ISystemState, IRootState> = {
       roleList: [],
       roleCount: 0,
       goodsList: [],
-      goodsCount: 0
+      goodsCount: 0,
+      menusList: [],
+      menusCount: 0
     };
   },
   mutations: {
@@ -32,6 +34,12 @@ const systemModel: Module<ISystemState, IRootState> = {
     },
     changeGoodsCount(state, goodsCount: number) {
       state.goodsCount = goodsCount;
+    },
+    changeMenusList(state, menusList: any) {
+      state.menusList = menusList;
+    },
+    changeMenuCount(state, MenusCount: number) {
+      state.menusCount = MenusCount;
     }
   },
   actions: {
@@ -48,6 +56,10 @@ const systemModel: Module<ISystemState, IRootState> = {
           break;
         case 'goods':
           pageUrl = '/goods/list';
+          break;
+        case 'menu':
+          pageUrl = '/menu/list';
+          break;
       }
       // 1. 发送请求
       const PageResult = await getPageListData(pageUrl, payload.queryInfo);
@@ -65,6 +77,10 @@ const systemModel: Module<ISystemState, IRootState> = {
           commit('changeGoodsList', list);
           commit('changeGoodsCount', totalCount);
           break;
+        case 'menu':
+          commit('changeMenusList', list);
+          commit('changeMenuCount', totalCount);
+          break;
       }
     }
   },
@@ -78,6 +94,8 @@ const systemModel: Module<ISystemState, IRootState> = {
             return state.roleList;
           case 'goods':
             return state.goodsList;
+          case 'menu':
+            return state.menusList;
         }
       };
     },
@@ -90,6 +108,8 @@ const systemModel: Module<ISystemState, IRootState> = {
             return state.roleCount;
           case 'goods':
             return state.goodsCount;
+          case 'menu':
+            return state.menusCount;
         }
       };
     }
