@@ -6,3 +6,8 @@ export function getPageListData(url: string, queryInfo: any) {
     data: queryInfo
   });
 }
+export function DeletePageData(url: string) {
+  return Service.delete<IDataType>({
+    url: url
+  });
+}

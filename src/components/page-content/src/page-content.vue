@@ -22,11 +22,17 @@
       <template #updateAt="scope">
         {{ $dayjs(scope.row.updateAt).format('YYYY-MM-DD HH:mm:ss') }}
       </template>
-      <template #handle>
+      <template #handle="scope">
         <el-button v-if="isUpdate" plain size="small" type="primary" icon="el-icon-edit"
           >编辑</el-button
         >
-        <el-button v-if="isDelete" plain size="small" type="danger" icon="el-icon-delete"
+        <el-button
+          v-if="isDelete"
+          plain
+          size="small"
+          type="danger"
+          icon="el-icon-delete"
+          @click="handleDelete(scope.row)"
           >删除</el-button
         >
       </template>
@@ -77,7 +83,7 @@ export default defineComponent({
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
         queryInfo: {
-          offset: page.value.pageSize * page.value.currentPage,
+          offset: (page.value.pageSize - 1) * page.value.currentPage,
           size: page.value.pageSize,
           ...queryInfo
         }
@@ -100,6 +106,13 @@ export default defineComponent({
       if (item.slotName === 'handle') return false;
       return true;
     });
+    // 删除
+    const handleDelete = (row: any) => {
+      store.dispatch('system/deletePageDataAction', {
+        pageName: props.pageName,
+        id: row.id
+      });
+    };
     return {
       // userList,
       // userCount,
@@ -111,7 +124,8 @@ export default defineComponent({
       otherPropSlots,
       isCreate,
       isUpdate,
-      isDelete
+      isDelete,
+      handleDelete
     };
   }
 });
