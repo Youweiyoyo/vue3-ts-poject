@@ -8,7 +8,9 @@
       @selectionChange="handleSelection"
     >
       <template #handleHeader>
-        <el-button v-if="isCreate" type="primary">{{ ButtonName }}</el-button>
+        <el-button v-if="isCreate" type="primary" @click="handleNewClick">{{
+          ButtonName
+        }}</el-button>
         <el-button icon="el-icon-refresh"></el-button>
       </template>
       <template #enable="scope">
@@ -23,7 +25,13 @@
         {{ $dayjs(scope.row.updateAt).format('YYYY-MM-DD HH:mm:ss') }}
       </template>
       <template #handle="scope">
-        <el-button v-if="isUpdate" plain size="small" type="primary" icon="el-icon-edit"
+        <el-button
+          v-if="isUpdate"
+          plain
+          size="small"
+          type="primary"
+          icon="el-icon-edit"
+          @click="handleEditClick"
           >编辑</el-button
         >
         <el-button
@@ -51,7 +59,7 @@ import { useStore } from 'vuex';
 import { usePermission } from '@/hooks/use-permission';
 import YwTable from '@/components/Yw-table';
 export default defineComponent({
-  emits: ['selectionChange'],
+  emits: ['selectionChange', 'newBtnClick', 'editBtnClick'],
   props: {
     pageContentConfig: {
       type: Object,
@@ -106,6 +114,14 @@ export default defineComponent({
       if (item.slotName === 'handle') return false;
       return true;
     });
+    // 新增
+    const handleNewClick = () => {
+      emit('newBtnClick');
+    };
+    // 编辑
+    const handleEditClick = (row: any) => {
+      emit('editBtnClick', row);
+    };
     // 删除
     const handleDelete = (row: any) => {
       store.dispatch('system/deletePageDataAction', {
@@ -125,7 +141,9 @@ export default defineComponent({
       isCreate,
       isUpdate,
       isDelete,
-      handleDelete
+      handleDelete,
+      handleNewClick,
+      handleEditClick
     };
   }
 });

@@ -10,26 +10,39 @@
       :pageContentConfig="pageContentConfig"
       pageName="users"
       @selectionChange="handleSelection"
+      @newBtnClick="handleData"
+      @editBtnClick="handleEdit"
     />
+    <page-model :pageModelConfig="modelConfig" ref="pageModelRef" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { usePageSearch } from '@/hooks/usePageSearch';
 import PageSearch from '@/components/page-search';
 import PageContent from '@/components/page-content';
+import PageModel from '@/components/page-model';
 import { searchFormConfig } from './config/searceForm.config';
 import { pageContentConfig } from './config/content.config';
+import { modelConfig } from './config/model.config';
 export default defineComponent({
   name: 'user',
   components: {
     PageSearch,
-    PageContent
+    PageContent,
+    PageModel
   },
   setup() {
+    const pageModelRef = ref<InstanceType<typeof PageModel>>();
     const handleSelection = (val: any) => {
       console.log(val, 'val');
+    };
+    const handleData = () => {
+      pageModelRef.value.dialogVisible = true;
+    };
+    const handleEdit = (row: any) => {
+      pageModelRef.value.dialogVisible = true;
     };
     const { handelRefreshClick, handelQueryClick, PageContentRef } = usePageSearch();
     return {
@@ -38,7 +51,11 @@ export default defineComponent({
       pageContentConfig,
       handelRefreshClick,
       handelQueryClick,
-      PageContentRef
+      PageContentRef,
+      modelConfig,
+      handleData,
+      handleEdit,
+      pageModelRef
     };
   }
 });

@@ -1,5 +1,5 @@
 export const modelConfig = {
-  formItems: [
+  formItem: [
     {
       field: 'name',
       type: 'input',
@@ -25,5 +25,6 @@ export const modelConfig = {
       placeholder: '请输入电话号码'
     }
   ],
-  colLayout: { span: 24 }
-}
+  colLayout: { span: 24 },
+  itemStyle: {}
+};
