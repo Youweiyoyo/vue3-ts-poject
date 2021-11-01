@@ -31,7 +31,7 @@
           size="small"
           type="primary"
           icon="el-icon-edit"
-          @click="handleEditClick"
+          @click="handleEditClick(scope.row)"
           >编辑</el-button
         >
         <el-button

@@ -13,7 +13,11 @@
       @newBtnClick="handleData"
       @editBtnClick="handleEdit"
     />
-    <page-model :pageModelConfig="modelConfig" ref="pageModelRef" />
+    <page-model
+      :defaultRowInfo="defaultRowInfo"
+      :pageModelConfig="modelConfig"
+      ref="pageModelRef"
+    />
   </div>
 </template>
 
@@ -26,6 +30,7 @@ import PageModel from '@/components/page-model';
 import { searchFormConfig } from './config/searceForm.config';
 import { pageContentConfig } from './config/content.config';
 import { modelConfig } from './config/model.config';
+import { usePageModel } from '@/hooks/use-pageModel';
 export default defineComponent({
   name: 'user',
   components: {
@@ -34,15 +39,9 @@ export default defineComponent({
     PageModel
   },
   setup() {
-    const pageModelRef = ref<InstanceType<typeof PageModel>>();
+    const { pageModelRef, defaultRowInfo, handleData, handleEdit } = usePageModel();
     const handleSelection = (val: any) => {
       console.log(val, 'val');
-    };
-    const handleData = () => {
-      pageModelRef.value.dialogVisible = true;
-    };
-    const handleEdit = (row: any) => {
-      pageModelRef.value.dialogVisible = true;
     };
     const { handelRefreshClick, handelQueryClick, PageContentRef } = usePageSearch();
     return {
@@ -55,7 +54,8 @@ export default defineComponent({
       modelConfig,
       handleData,
       handleEdit,
-      pageModelRef
+      pageModelRef,
+      defaultRowInfo
     };
   }
 });

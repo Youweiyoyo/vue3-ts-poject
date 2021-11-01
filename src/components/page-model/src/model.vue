@@ -12,7 +12,7 @@
   </div>
 </template>
 <script>
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import YwForm from '@/components/Yw-form';
 export default defineComponent({
   name: 'model',
@@ -20,14 +20,26 @@ export default defineComponent({
     pageModelConfig: {
       type: Object,
       required: true
+    },
+    defaultRowInfo: {
+      type: Object,
+      default: () => ({})
     }
   },
   components: {
     YwForm
   },
-  setup() {
+  setup(props) {
     const dialogVisible = ref(false);
     const formData = ref({});
+    watch(
+      () => props.defaultRowInfo,
+      (newValue) => {
+        for (const item of props.pageModelConfig.formItem) {
+          formData.value[`${item.field}`] = newValue[`${item.field}`];
+        }
+      }
+    );
     return {
       dialogVisible,
       formData
