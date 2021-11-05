@@ -14,6 +14,7 @@
       @editBtnClick="handleEdit"
     />
     <page-model
+      pageName="users"
       :defaultRowInfo="defaultRowInfo"
       :pageModelConfig="modelConfigRef"
       ref="pageModelRef"

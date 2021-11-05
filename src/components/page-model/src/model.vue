@@ -5,7 +5,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+          <el-button type="primary" @click="submitForm">确 定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -14,6 +14,7 @@
 <script>
 import { defineComponent, ref, watch } from 'vue';
 import YwForm from '@/components/Yw-form';
+import { useStore } from 'vuex';
 export default defineComponent({
   name: 'model',
   props: {
@@ -24,14 +25,37 @@ export default defineComponent({
     defaultRowInfo: {
       type: Object,
       default: () => ({})
+    },
+    pageName: {
+      type: String,
+      required: true
     }
   },
   components: {
     YwForm
   },
   setup(props) {
+    const store = useStore();
     const dialogVisible = ref(false);
     const formData = ref({});
+    // 确定按钮
+    const submitForm = () => {
+      dialogVisible.value = false;
+      if (Object.keys(props.defaultRowInfo).length) {
+        // 编辑
+        store.dispatch('system/editPageDataAction', {
+          pageName: props.pageName,
+          editData: { ...formData.value },
+          id: props.defaultRowInfo.id
+        });
+      } else {
+        // 新建
+        store.dispatch('system/createPageDataAction', {
+          pageName: props.pageName,
+          newData: { ...formData.value }
+        });
+      }
+    };
     watch(
       () => props.defaultRowInfo,
       (newValue) => {
@@ -42,7 +66,8 @@ export default defineComponent({
     );
     return {
       dialogVisible,
-      formData
+      formData,
+      submitForm
     };
   }
 });
