@@ -1,6 +1,6 @@
 <template>
   <div class="modelDialog">
-    <el-dialog title="新建用户" v-model="dialogVisible" width="30%" center>
+    <el-dialog title="新建用户" v-model="dialogVisible" width="30%" center destroy-on-close>
       <yw-form v-bind="pageModelConfig" v-model="formData"></yw-form>
       <template #footer>
         <span class="dialog-footer">

@@ -39,11 +39,27 @@ export default defineComponent({
     PageModel
   },
   setup() {
-    const { pageModelRef, defaultRowInfo, handleData, handleEdit } = usePageModel();
+    const { handelRefreshClick, handelQueryClick, PageContentRef } = usePageSearch();
+    // pageModel 相关逻辑
+    const newCallback = () => {
+      const passwordItem = modelConfig.formItem.find((item) => item.field === 'password');
+      if (passwordItem) {
+        passwordItem.isHidden = false;
+      }
+    };
+    const editCallback = () => {
+      const passwordItem = modelConfig.formItem.find((item) => item.field === 'password');
+      if (passwordItem) {
+        passwordItem.isHidden = true;
+      }
+    };
+    const { pageModelRef, defaultRowInfo, handleData, handleEdit } = usePageModel(
+      newCallback,
+      editCallback
+    );
     const handleSelection = (val: any) => {
       console.log(val, 'val');
     };
-    const { handelRefreshClick, handelQueryClick, PageContentRef } = usePageSearch();
     return {
       searchFormConfig,
       handleSelection,
