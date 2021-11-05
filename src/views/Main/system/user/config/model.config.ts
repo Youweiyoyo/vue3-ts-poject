@@ -30,14 +30,14 @@ export const modelConfig = {
       type: 'select',
       label: '选择部门',
       placeholder: '请选择部门',
-      options: []
+      option: []
     },
     {
       field: 'roleId',
       type: 'select',
       label: '选择角色',
       placeholder: '请选择角色',
-      options: []
+      option: []
     }
   ],
   colLayout: { span: 24 },
