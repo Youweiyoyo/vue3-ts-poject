@@ -67,4 +67,18 @@ export function mapMenusToPermissions(userMenus: any[]) {
   _recurseGetPermission(userMenus);
   return Permissions;
 }
+export function mapMenuLeafKeys(menuList: any[]) {
+  const leftKeys: number[] = [];
+  const _recurseGetLeft = (menuList: any[]) => {
+    for (const menu of menuList) {
+      if (menu.children) {
+        _recurseGetLeft(menu.children);
+      } else {
+        leftKeys.push(menu.id);
+      }
+    }
+  };
+  _recurseGetLeft(menuList);
+  return leftKeys;
+}
 export { firstMenu };
