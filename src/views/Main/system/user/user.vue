@@ -76,7 +76,6 @@ export default defineComponent({
       newCallback,
       editCallback
     );
-    // 调用hook获取公共变量和函数
     const handleSelection = (val: any) => {
       console.log(val, 'val');
     };

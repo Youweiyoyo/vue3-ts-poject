@@ -7,7 +7,7 @@
       </span>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item>登出</el-dropdown-item>
+          <el-dropdown-item @click="logOut">登出</el-dropdown-item>
           <el-dropdown-item>用户信息</el-dropdown-item>
           <el-dropdown-item>系统管理</el-dropdown-item>
         </el-dropdown-menu>
@@ -18,12 +18,20 @@
 <script>
 import { defineComponent, computed } from 'vue';
 import { useStore } from '@/store';
+import { useRouter } from 'vue-router';
+import LocalCache from '@/utils/cache';
 export default defineComponent({
   setup() {
     const store = useStore();
+    const router = useRouter();
     const name = computed(() => store.state.login.userInfo.name);
+    const logOut = () => {
+      LocalCache.clearCache('token');
+      router.push('/main');
+    };
     return {
-      name
+      name,
+      logOut
     };
   }
 });
