@@ -7,6 +7,7 @@
 import { ref, onMounted, defineProps, withDefaults } from 'vue';
 import * as echarts from 'echarts';
 import { EChartsOption } from 'echarts';
+import useEchart from '@/components/base-charts/hooks/useEchart';
 // 使用 defineProps 定义 Props 使用泛型约定类型
 // 使用 withDefaults 给属性设置默认值
 const props = withDefaults(
@@ -22,10 +23,8 @@ const props = withDefaults(
 );
 const eChartsDivRef = ref<HTMLElement>();
 onMounted(() => {
-  if (eChartsDivRef.value) {
-    const eChartInstance = echarts.init(eChartsDivRef.value);
-    eChartInstance.setOption(props.option);
-  }
+  const { setOptions } = useEchart(eChartsDivRef.value);
+  setOptions(props.option);
 });
 </script>
 <style lang="less"></style>
