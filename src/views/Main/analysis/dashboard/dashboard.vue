@@ -1,6 +1,7 @@
 <template>
   <div class="dashboard">
-    <div class="eCharts" ref="H2Ref"></div>
+    <!--    <div class="eCharts" ref="H2Ref"></div>-->
+    <base-charts :option="option" />
   </div>
 </template>
 
@@ -8,8 +9,12 @@
 import { defineComponent, ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import * as echarts from 'echarts';
+import BaseCharts from '@/components/base-charts';
 export default defineComponent({
   name: 'dashboard',
+  components: {
+    BaseCharts
+  },
   setup() {
     const state = useStore();
     state.dispatch('analysis/getDashboardDataAction');
@@ -58,7 +63,8 @@ export default defineComponent({
       }
     });
     return {
-      H2Ref
+      H2Ref,
+      option
     };
   }
 });
@@ -68,7 +74,7 @@ export default defineComponent({
 .dashboard {
   .eCharts {
     width: 500px;
-    height: 300px;
+    height: 500px;
   }
 }
 </style>
