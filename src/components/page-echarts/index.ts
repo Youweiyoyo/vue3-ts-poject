@@ -1,3 +1,4 @@
 import PageEcharts from './src/page-echarts.vue';
-
-export { PageEcharts };
+import RoseEcharts from './src/rose-echarts.vue';
+import lineEcharts from './src/line-echarts.vue';
+export { PageEcharts, RoseEcharts, lineEcharts };

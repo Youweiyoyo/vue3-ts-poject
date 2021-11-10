@@ -1,17 +1,21 @@
 <template>
   <div class="dashboard">
-    <page-echarts :pieData="categoryGoodsCount"></page-echarts>
+    <page-echarts :pieData="categoryGoodsCount" />
+    <roseEcharts :roseData="categoryGoodsCount" />
+    <lineEcharts :lineData="categoryGoodsCount" title="堆叠折线图" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
-import { PageEcharts } from '@/components/page-echarts';
+import { PageEcharts, RoseEcharts, lineEcharts } from '@/components/page-echarts';
 export default defineComponent({
   name: 'dashboard',
   components: {
-    PageEcharts
+    PageEcharts,
+    RoseEcharts,
+    lineEcharts
   },
   setup() {
     const store = useStore();
