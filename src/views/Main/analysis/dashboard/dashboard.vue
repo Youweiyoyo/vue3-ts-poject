@@ -2,7 +2,7 @@
   <div class="dashboard">
     <page-echarts :pieData="categoryGoodsCount" />
     <roseEcharts :roseData="categoryGoodsCount" />
-    <lineEcharts :lineData="categoryGoodsCount" title="堆叠折线图" />
+    <lineEcharts :lineData="categoryGoodsCount" title="销量" v-bind="categoryGoodsSasle" />
   </div>
 </template>
 
@@ -24,9 +24,21 @@ export default defineComponent({
         return { name: item.name, value: item.goodsCount };
       });
     });
+    const categoryGoodsSasle = computed(() => {
+      const xLabel: string[] = [];
+      const value: any[] = [];
+      const categoryGoodsSasle = store.state.analysis.dataList2;
+      for (const item of categoryGoodsSasle) {
+        console.log(item, 'item');
+        xLabel.push(item.name);
+        value.push(item.goodsCount);
+      }
+      return { xLabel, value };
+    });
     store.dispatch('analysis/getDashboardDataAction');
     return {
-      categoryGoodsCount
+      categoryGoodsCount,
+      categoryGoodsSasle
     };
   }
 });
