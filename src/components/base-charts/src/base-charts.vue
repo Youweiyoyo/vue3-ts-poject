@@ -4,8 +4,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, defineProps, withDefaults } from 'vue';
-import * as echarts from 'echarts';
+import { ref, onMounted, defineProps, withDefaults, watchEffect } from 'vue';
 import { EChartsOption } from 'echarts';
 import useEchart from '@/components/base-charts/hooks/useEchart';
 // 使用 defineProps 定义 Props 使用泛型约定类型
@@ -24,7 +23,10 @@ const props = withDefaults(
 const eChartsDivRef = ref<HTMLElement>();
 onMounted(() => {
   const { setOptions } = useEchart(eChartsDivRef.value);
-  setOptions(props.option);
+  // 当 options 发生改变调用
+  watchEffect(() => {
+    setOptions(props.option);
+  });
 });
 </script>
 <style lang="less"></style>
